@@ -1,3 +1,6 @@
+import 'package:catalogo/Column.dart';
+import 'package:catalogo/Row.dart';
+import 'package:catalogo/Stack.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,15 +13,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to Flutter',
+      title: 'Catálogo',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Welcome to Flutter'),
-        ),
-        body: const Center(
-          child: Text('Hello World'),
-        ),
-      ),
+          appBar: AppBar(
+            title: const Text('Catálogo de Películas'),
+          ),
+          body: Container(
+            width: double.infinity,
+            color: Colors.black,
+            child: TemplateColumn(),
+          )),
     );
   }
 }
