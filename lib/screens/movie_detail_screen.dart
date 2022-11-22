@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/movies.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   // final String title;
@@ -9,10 +12,14 @@ class MovieDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productId = ModalRoute.of(context)?.settings.arguments as String;
+    final movieId = ModalRoute.of(context)?.settings.arguments as String;
+    final loadedMovie = Provider.of<Movies>(
+      context,
+      listen: false,
+    ).findById(movieId);
     return Scaffold(
       appBar: AppBar(
-        title: Text('title'),
+        title: Text(loadedMovie.title),
       ),
     );
   }

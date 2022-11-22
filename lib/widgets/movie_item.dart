@@ -29,22 +29,22 @@ class MovieItem extends StatelessWidget {
           ),
           footer: GridTileBar(
             backgroundColor: Colors.black87,
-            leading: IconButton(
+            /*leading: IconButton(
               icon: Icon(Icons.favorite),
               onPressed: () {},
               color: Theme.of(context).colorScheme.secondary,
-            ),
+            ),*/
             title: Text(
               title,
               textAlign: TextAlign.center,
             ),
-            trailing: IconButton(
+            /*trailing: IconButton(
               icon: Icon(
                 Icons.shopping_cart,
               ),
               onPressed: () {},
               color: Theme.of(context).colorScheme.secondary,
-            ),
+            ),*/
           ),
         ));
   }

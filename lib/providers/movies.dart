@@ -54,6 +54,10 @@ class Movies with ChangeNotifier {
     return [..._items];
   }
 
+  Movie findById(String id) {
+    return _items.firstWhere((mov) => mov.id == id);
+  }
+
   void addMovie() {
     // _items.add(value);
     notifyListeners();
