@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+//import 'package:http/http.dart' as http;
+
+import './screens/movies_overview_screen.dart';
+import './screens/movie_detail_screen.dart';
+import './providers/movies.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,45 +15,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Catálogo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Catálogo de Películas"),
-        ),
-        body: Center(
-          child: Stack(
-            children: <Widget>[
-              Container(
-                alignment: Alignment.center,
-                child: Image(
-                  image: AssetImage('assets/images/Background.png'),
-                  //height: 250,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Hello World',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22.0),
-                  )),
-              Container(
-                alignment: Alignment.bottomCenter,
-                padding: EdgeInsets.all(30.0),
-                child: Icon(
-                  Icons.star,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    return ChangeNotifierProvider(
+        create: (ctx) => Movies(),
+        /*builder: for older -provider- versions*/
+        child: MaterialApp(
+            title: 'Catálogo de Películas',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo)
+                  .copyWith(secondary: Colors.deepOrange),
+              fontFamily: 'Lato',
+            ),
+            home: MoviesOverviewScreen(),
+            routes: {
+              MovieDetailScreen.routeName: (ctx) => MovieDetailScreen(),
+            }));
   }
 }
