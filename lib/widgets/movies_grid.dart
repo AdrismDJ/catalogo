@@ -5,17 +5,26 @@ import '../providers/movies.dart';
 import './movie_item.dart';
 
 class MoviesGrid extends StatelessWidget {
+  final bool showFavs;
+
+  MoviesGrid(this.showFavs);
+
   @override
   Widget build(BuildContext context) {
     final movieData = Provider.of<Movies>(context);
-    final movies = movieData.items;
+    final movies = showFavs ? movieData.favoriteItems : movieData.items;
+    //final movies = movieData.items;
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
       itemCount: movies.length,
-      itemBuilder: (ctx, i) => MovieItem(
-        movies[i].id,
-        movies[i].title,
-        movies[i].imageUrl,
+      itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+        //create: (c) => movies[i],
+        value: movies[i],
+        child: MovieItem(
+            // movies[i].id,
+            // movies[i].title,
+            // movies[i].imageUrl,
+            ),
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1 /*2*/,

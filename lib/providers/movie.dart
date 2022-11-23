@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class Movie {
+class Movie with ChangeNotifier {
   final String id;
   final String title;
   final double year;
@@ -20,24 +20,9 @@ class Movie {
     required this.imageUrl,
     this.isFavorite = false,
   });
-}
 
-/*
-class Movie {
-  final String id;
-  final String title;
-  final String description;
-  final double price;
-  final String imageUrl;
-  bool isFavorite;
-
-  Movie({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.price,
-    required this.imageUrl,
-    this.isFavorite = false,
-  });
+  void toggleFavoriteStatus() {
+    isFavorite = !isFavorite;
+    notifyListeners();
+  }
 }
-*/
