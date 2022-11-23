@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/movie.dart';
+import './movie.dart';
 
 class Movies with ChangeNotifier {
   List<Movie> _items = [
@@ -50,13 +50,34 @@ class Movies with ChangeNotifier {
     ),
   ];
 
+  //var _showFavoritesOnly = false;
+
   List<Movie> get items {
     return [..._items];
+    // if (_showFavoritesOnly) {
+    //   return _items.where((movItem) => movItem.isFavorite).toList();
+    // } else {
+    //   return [..._items];
+    // }
+  }
+
+  List<Movie> get favoriteItems {
+    return _items.where((movItem) => movItem.isFavorite).toList();
   }
 
   Movie findById(String id) {
     return _items.firstWhere((mov) => mov.id == id);
   }
+
+  // void showFavoritesOnly() {
+  //   _showFavoritesOnly = true;
+  //   notifyListeners();
+  // }
+
+  // void showAll() {
+  //   _showFavoritesOnly = false;
+  //   notifyListeners();
+  // }
 
   void addMovie() {
     // _items.add(value);
