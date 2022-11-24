@@ -1,8 +1,10 @@
+import 'package:catalogo/providers/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/movie_detail_screen.dart';
 import '../providers/movie.dart';
+import '../providers/cart.dart';
 
 class MovieItem extends StatelessWidget {
   // final String id;
@@ -14,6 +16,7 @@ class MovieItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final movie = Provider.of<Movie>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -51,7 +54,10 @@ class MovieItem extends StatelessWidget {
             icon: Icon(
               Icons.shopping_cart,
             ),
-            onPressed: () {},
+            onPressed: () {
+              cart.addItem(movie.id, movie.year, movie.title)
+
+            },
             color: Theme.of(context).colorScheme.secondary,
           ),
         ),
