@@ -4,6 +4,7 @@ class Movie with ChangeNotifier {
   final String id;
   final String title;
   final double year;
+  final double price;
   final String director;
   final String gender;
   final String sinopsis;
@@ -14,6 +15,7 @@ class Movie with ChangeNotifier {
     required this.id,
     required this.title,
     required this.year,
+    required this.price,
     required this.director,
     required this.gender,
     required this.sinopsis,

@@ -8,6 +8,7 @@ class Movies with ChangeNotifier {
       id: 'm1',
       title: 'The Terminator',
       year: 1984,
+      price: 50,
       director: 'James Cameron',
       gender: 'Science fiction action',
       sinopsis:
@@ -19,6 +20,7 @@ class Movies with ChangeNotifier {
       id: 'm2',
       title: 'Die Hard',
       year: 1988,
+      price: 50,
       director: 'John McTiernan',
       gender: 'Action',
       sinopsis:
@@ -30,6 +32,7 @@ class Movies with ChangeNotifier {
       id: 'm3',
       title: 'Rocky',
       year: 1976,
+      price: 50,
       director: 'John G. Avildsen',
       gender: 'Sports drama',
       sinopsis:
@@ -41,6 +44,7 @@ class Movies with ChangeNotifier {
       id: 'm4',
       title: 'Back to the Future',
       year: 1985,
+      price: 50,
       director: 'Robert Zemeckis',
       gender: 'Science fiction',
       sinopsis:
