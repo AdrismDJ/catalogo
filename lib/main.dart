@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:http/http.dart' as http;
 
+import './screens/cart_screen.dart';
 import './screens/movies_overview_screen.dart';
 import './screens/movie_detail_screen.dart';
 import './providers/movies.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
             home: MoviesOverviewScreen(),
             routes: {
               MovieDetailScreen.routeName: (ctx) => MovieDetailScreen(),
+              CartScreen.routeName: (ctx) => CartScreen(),
             }));
   }
 }

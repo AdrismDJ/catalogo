@@ -55,8 +55,7 @@ class MovieItem extends StatelessWidget {
               Icons.shopping_cart,
             ),
             onPressed: () {
-              cart.addItem(movie.id, movie.year, movie.title)
-
+              cart.addItem(movie.id, movie.price, movie.title);
             },
             color: Theme.of(context).colorScheme.secondary,
           ),

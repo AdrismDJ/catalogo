@@ -2,13 +2,17 @@
 //import 'package:flutter/semantics.dart';
 //import 'package:flutter/src/widgets/container.dart';
 //import 'package:flutter/src/widgets/framework.dart';
-
 //import 'package:catalogo/providers/movies.dart';
+//import '../providers/movies.dart';
+
+import 'package:catalogo/providers/cart.dart';
 import 'package:flutter/material.dart';
-//import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/movies_grid.dart';
-//import '../providers/movies.dart';
+import '../widgets/badge.dart';
+import '../providers/cart.dart';
+import './cart_screen.dart';
 
 enum FilterOptions {
   Favorites,
@@ -54,6 +58,22 @@ class _MoviesOverviewScreenState extends State<MoviesOverviewScreen> {
                 value: FilterOptions.All,
               ),
             ],
+          ),
+          Consumer<Cart>(
+            builder: (_, cart, ch) => Badge(
+              // ignore: sort_child_properties_last
+              child: ch!,
+              value: cart.itemCount.toString(),
+              color: Colors.black,
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+            ),
           ),
         ],
       ),
