@@ -8,6 +8,7 @@ import './screens/movies_overview_screen.dart';
 import './screens/movie_detail_screen.dart';
 import './providers/movies.dart';
 import './providers/cart.dart';
+import './providers/orders.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,6 +28,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider /*.value*/ (
             create: (ctx) => Cart(),
             //value: Cart(),
+          ),
+          ChangeNotifierProvider /*.value*/ (
+            create: (ctx) => Orders(),
+            //value: Orders(),
           ),
         ],
         child: MaterialApp(
