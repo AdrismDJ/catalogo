@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 class Movie with ChangeNotifier {
   final String id;
   final String title;
-  final double year;
+  final int year;
   final double price;
   final String director;
   final String gender;

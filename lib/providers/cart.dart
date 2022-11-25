@@ -68,4 +68,9 @@ class Cart with ChangeNotifier {
     _items.remove(movieId);
     notifyListeners();
   }
+
+  void clear() {
+    _items = {};
+    notifyListeners();
+  }
 }
