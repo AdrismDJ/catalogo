@@ -56,6 +56,21 @@ class MovieItem extends StatelessWidget {
             ),
             onPressed: () {
               cart.addItem(movie.id, movie.price, movie.title);
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Added item to cart!',
+                  ),
+                  duration: Duration(seconds: 2),
+                  action: SnackBarAction(
+                    label: 'UNDO',
+                    onPressed: () {
+                      cart.removeSingleItem(movie.id);
+                    },
+                  ),
+                ),
+              );
             },
             color: Theme.of(context).colorScheme.secondary,
           ),

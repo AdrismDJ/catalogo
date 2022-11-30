@@ -1,14 +1,9 @@
-//import 'dart:html';
-//import 'package:flutter/semantics.dart';
-//import 'package:flutter/src/widgets/container.dart';
-//import 'package:flutter/src/widgets/framework.dart';
-//import 'package:catalogo/providers/movies.dart';
-//import '../providers/movies.dart';
-
 import 'package:catalogo/providers/cart.dart';
+import 'package:catalogo/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/app_drawer.dart';
 import '../widgets/movies_grid.dart';
 import '../widgets/badge.dart';
 import '../providers/cart.dart';
@@ -77,6 +72,7 @@ class _MoviesOverviewScreenState extends State<MoviesOverviewScreen> {
           ),
         ],
       ),
+      drawer: AppDrawer(),
       body: MoviesGrid(_showOnlyFavorites),
     );
   }
