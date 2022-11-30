@@ -50,13 +50,6 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
 
   void _updateImageUrl() {
     if (!_imageUrlFocusNode.hasFocus) {
-      setState(() {});
-    }
-  }
-
-/*
-  void _updateImageUrl() {
-    if (!_imageUrlFocusNode.hasFocus) {
       if ((!_imageUrlController.text.startsWith('http') &&
               !_imageUrlController.text.startsWith('https')) ||
           (!_imageUrlController.text.endsWith('.png') &&
@@ -67,8 +60,12 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
       setState(() {});
     }
   }
-*/
+
   void _saveForm() {
+    final isValid = _form.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
     _form.currentState!.save();
     print(_editedMovie.title);
     print(_editedMovie.year);
@@ -104,6 +101,12 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_yearFocusNode);
                 },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please provide a value.';
+                  }
+                  return null;
+                },
                 onSaved: (value) {
                   var value; //???
                   _editedMovie = Movie(
@@ -126,6 +129,18 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 focusNode: _yearFocusNode,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_priceFocusNode);
+                },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a price.';
+                  }
+                  if (double.tryParse(value) == null) {
+                    return 'Please enter a valid number.';
+                  }
+                  if (double.parse(value) <= 0) {
+                    return 'Please enter a number greater than zero.';
+                  }
+                  return null;
                 },
                 onSaved: (value) {
                   var value; //???
@@ -150,6 +165,18 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_directorFocusNode);
                 },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a price.';
+                  }
+                  if (double.tryParse(value) == null) {
+                    return 'Please enter a valid number.';
+                  }
+                  if (double.parse(value) <= 0) {
+                    return 'Please enter a number greater than zero.';
+                  }
+                  return null;
+                },
                 onSaved: (value) {
                   var value; //???
                   _editedMovie = Movie(
@@ -171,6 +198,12 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 focusNode: _directorFocusNode,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_genderFocusNode);
+                },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please provide a value.';
+                  }
+                  return null;
                 },
                 onSaved: (value) {
                   var value; //???
@@ -194,6 +227,12 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_sinopsisFocusNode);
                 },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please provide a value.';
+                  }
+                  return null;
+                },
                 onSaved: (value) {
                   var value; //???
                   _editedMovie = Movie(
@@ -214,6 +253,15 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 maxLines: 3,
                 keyboardType: TextInputType.multiline,
                 focusNode: _sinopsisFocusNode,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter a description.';
+                  }
+                  if (value.length < 10) {
+                    return 'Should be at least 10 characters long.';
+                  }
+                  return null;
+                },
                 onSaved: (value) {
                   var value; //???
                   _editedMovie = Movie(
@@ -264,9 +312,8 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                       onFieldSubmitted: (_) {
                         _saveForm();
                       },
-                      /*
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Please enter an image URL.';
                         }
                         if (!value.startsWith('http') &&
@@ -280,7 +327,6 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                         }
                         return null;
                       },
-                      */
                       onSaved: (value) {
                         var value; //???
                         _editedMovie = Movie(
