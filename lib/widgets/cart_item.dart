@@ -41,7 +41,10 @@ class CartItem extends StatelessWidget {
         Provider.of<Cart>(context, listen: false).removeItem(movieId);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+        margin: EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 4,
+        ),
         child: Padding(
           padding: EdgeInsets.all(8),
           child: ListTile(
