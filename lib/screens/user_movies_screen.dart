@@ -33,6 +33,7 @@ class UserMoviesScreen extends StatelessWidget {
           itemBuilder: (_, i) => Column(
             children: [
               UserMovieItem(
+                moviesData.items[i].id,
                 moviesData.items[i].title,
                 moviesData.items[i].imageUrl,
               ),

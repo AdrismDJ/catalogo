@@ -8,7 +8,7 @@ class MovieDetailScreen extends StatelessWidget {
   // final double year;
 
   // MovieDetailScreen(this.title, this.year);
-  static const routeName = 'product-detail';
+  static const routeName = '/movie-detail';
 
   @override
   Widget build(BuildContext context) {

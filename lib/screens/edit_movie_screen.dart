@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../providers/movie.dart';
+import '../providers/movies.dart';
 
 class EditMovieScreen extends StatefulWidget {
   static const routeName = '/edit-movie';
@@ -29,10 +31,46 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
     imageUrl: '',
   );
 
+  var _initValues = {
+    'title': '',
+    'year': '',
+    'price': '',
+    'director': '',
+    'gender': '',
+    'sinopsis': '',
+    'imageUrl': '',
+  };
+  var _isInit = true;
+
   @override
   void initState() {
     _imageUrlFocusNode.addListener(_updateImageUrl);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final String movieId =
+          ModalRoute.of(context)!.settings.arguments as String;
+      if (movieId != null) {
+        _editedMovie =
+            Provider.of<Movies>(context, listen: false).findById(movieId);
+        _initValues = {
+          'title': _editedMovie.title,
+          'year': _editedMovie.year.toString(),
+          'price': _editedMovie.price.toString(),
+          'director': _editedMovie.director,
+          'gender': _editedMovie.gender,
+          'sinopsis': _editedMovie.sinopsis,
+          // 'imageUrl': _editedMovie.imageUrl,
+          'imageUrl': '',
+        };
+        _imageUrlController.text = _editedMovie.imageUrl;
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   @override
@@ -67,13 +105,13 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
       return;
     }
     _form.currentState!.save();
-    print(_editedMovie.title);
-    print(_editedMovie.year);
-    print(_editedMovie.price);
-    print(_editedMovie.director);
-    print(_editedMovie.gender);
-    print(_editedMovie.sinopsis);
-    print(_editedMovie.imageUrl);
+    if (_editedMovie.id != null) {
+      Provider.of<Movies>(context, listen: false)
+          .updateMovie(_editedMovie.id, _editedMovie);
+    } else {
+      Provider.of<Movies>(context, listen: false).addMovie(_editedMovie);
+    }
+    Navigator.of(context).pop();
   }
 
   @override
@@ -96,6 +134,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
             children: <Widget>[
               // TITLE
               TextFormField(
+                initialValue: _initValues['title'],
                 decoration: InputDecoration(labelText: 'Title'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
@@ -110,15 +149,15 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 onSaved: (value) {
                   var value; //???
                   _editedMovie = Movie(
-                    title: value,
-                    year: _editedMovie.year,
-                    price: _editedMovie.price,
-                    director: _editedMovie.director,
-                    gender: _editedMovie.gender,
-                    sinopsis: _editedMovie.sinopsis,
-                    imageUrl: _editedMovie.imageUrl,
-                    id: '',
-                  );
+                      title: value,
+                      year: _editedMovie.year,
+                      price: _editedMovie.price,
+                      director: _editedMovie.director,
+                      gender: _editedMovie.gender,
+                      sinopsis: _editedMovie.sinopsis,
+                      imageUrl: _editedMovie.imageUrl,
+                      id: _editedMovie.id,
+                      isFavorite: _editedMovie.isFavorite);
                 },
               ),
               // YEAR
@@ -158,6 +197,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
               ),
               // PRICE
               TextFormField(
+                initialValue: _initValues['price'],
                 decoration: InputDecoration(labelText: 'Price'),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
@@ -180,19 +220,20 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 onSaved: (value) {
                   var value; //???
                   _editedMovie = Movie(
-                    title: _editedMovie.title,
-                    year: _editedMovie.year,
-                    price: _editedMovie.price,
-                    director: _editedMovie.director,
-                    gender: _editedMovie.gender,
-                    sinopsis: _editedMovie.sinopsis,
-                    imageUrl: value,
-                    id: '',
-                  );
+                      title: _editedMovie.title,
+                      year: _editedMovie.year,
+                      price: _editedMovie.price,
+                      director: _editedMovie.director,
+                      gender: _editedMovie.gender,
+                      sinopsis: _editedMovie.sinopsis,
+                      imageUrl: value,
+                      id: _editedMovie.id,
+                      isFavorite: _editedMovie.isFavorite);
                 },
               ),
               // DIRECTOR
               TextFormField(
+                initialValue: _initValues['director'],
                 decoration: InputDecoration(labelText: 'Director'),
                 textInputAction: TextInputAction.next,
                 focusNode: _directorFocusNode,
@@ -208,19 +249,20 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 onSaved: (value) {
                   var value; //???
                   _editedMovie = Movie(
-                    title: value,
-                    year: _editedMovie.year,
-                    price: _editedMovie.price,
-                    director: _editedMovie.director,
-                    gender: _editedMovie.gender,
-                    sinopsis: _editedMovie.sinopsis,
-                    imageUrl: _editedMovie.imageUrl,
-                    id: '',
-                  );
+                      title: value,
+                      year: _editedMovie.year,
+                      price: _editedMovie.price,
+                      director: _editedMovie.director,
+                      gender: _editedMovie.gender,
+                      sinopsis: _editedMovie.sinopsis,
+                      imageUrl: _editedMovie.imageUrl,
+                      id: _editedMovie.id,
+                      isFavorite: _editedMovie.isFavorite);
                 },
               ),
               // GENDER
               TextFormField(
+                initialValue: _initValues['gender'],
                 decoration: InputDecoration(labelText: 'Gender'),
                 textInputAction: TextInputAction.next,
                 focusNode: _genderFocusNode,
@@ -236,19 +278,20 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 onSaved: (value) {
                   var value; //???
                   _editedMovie = Movie(
-                    title: value,
-                    year: _editedMovie.year,
-                    price: _editedMovie.price,
-                    director: _editedMovie.director,
-                    gender: _editedMovie.gender,
-                    sinopsis: _editedMovie.sinopsis,
-                    imageUrl: _editedMovie.imageUrl,
-                    id: '',
-                  );
+                      title: value,
+                      year: _editedMovie.year,
+                      price: _editedMovie.price,
+                      director: _editedMovie.director,
+                      gender: _editedMovie.gender,
+                      sinopsis: _editedMovie.sinopsis,
+                      imageUrl: _editedMovie.imageUrl,
+                      id: _editedMovie.id,
+                      isFavorite: _editedMovie.isFavorite);
                 },
               ),
               // SINOPSIS
               TextFormField(
+                initialValue: _initValues['sinopsis'],
                 decoration: InputDecoration(labelText: 'Sinopsis'),
                 maxLines: 3,
                 keyboardType: TextInputType.multiline,
@@ -265,15 +308,15 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 onSaved: (value) {
                   var value; //???
                   _editedMovie = Movie(
-                    title: _editedMovie.title,
-                    year: _editedMovie.year,
-                    price: _editedMovie.price,
-                    director: _editedMovie.director,
-                    gender: _editedMovie.gender,
-                    sinopsis: _editedMovie.sinopsis,
-                    imageUrl: value,
-                    id: '',
-                  );
+                      title: _editedMovie.title,
+                      year: _editedMovie.year,
+                      price: _editedMovie.price,
+                      director: _editedMovie.director,
+                      gender: _editedMovie.gender,
+                      sinopsis: _editedMovie.sinopsis,
+                      imageUrl: value,
+                      id: _editedMovie.id,
+                      isFavorite: _editedMovie.isFavorite);
                 },
               ),
               Row(
@@ -330,15 +373,15 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                       onSaved: (value) {
                         var value; //???
                         _editedMovie = Movie(
-                          title: _editedMovie.title,
-                          year: _editedMovie.year,
-                          price: _editedMovie.price,
-                          director: _editedMovie.director,
-                          gender: _editedMovie.gender,
-                          sinopsis: _editedMovie.sinopsis,
-                          imageUrl: value,
-                          id: '',
-                        );
+                            title: _editedMovie.title,
+                            year: _editedMovie.year,
+                            price: _editedMovie.price,
+                            director: _editedMovie.director,
+                            gender: _editedMovie.gender,
+                            sinopsis: _editedMovie.sinopsis,
+                            imageUrl: value,
+                            id: _editedMovie.id,
+                            isFavorite: _editedMovie.isFavorite);
                       },
                     ),
                   ),

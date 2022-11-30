@@ -83,8 +83,34 @@ class Movies with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addMovie() {
-    // _items.add(value);
+  void addMovie(Movie movie) {
+    final newMovie = Movie(
+      title: movie.title,
+      year: movie.year,
+      price: movie.price,
+      director: movie.director,
+      gender: movie.gender,
+      sinopsis: movie.sinopsis,
+      imageUrl: movie.imageUrl,
+      id: DateTime.now().toString(),
+    );
+    _items.add(newMovie);
+    // _items.insert(0, newMovie); // at the start of the list
+    notifyListeners();
+  }
+
+  void updateMovie(String id, Movie newMovie) {
+    final movIndex = _items.indexWhere((mov) => mov.id == id);
+    if (movIndex >= 0) {
+      _items[movIndex] = newMovie;
+      notifyListeners();
+    } else {
+      print('...');
+    }
+  }
+
+  void deleteMovie(String id) {
+    _items.removeWhere((mov) => mov.id == id);
     notifyListeners();
   }
 }
