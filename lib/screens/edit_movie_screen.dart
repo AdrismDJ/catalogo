@@ -21,7 +21,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
   final _imageUrlFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
   var _editedMovie = Movie(
-    id: '',
+    id: null,
     title: '',
     year: 0,
     price: 0,
@@ -51,8 +51,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final String movieId =
-          ModalRoute.of(context)!.settings.arguments as String;
+      final movieId = ModalRoute.of(context).settings.arguments as String;
       if (movieId != null) {
         _editedMovie =
             Provider.of<Movies>(context, listen: false).findById(movieId);
@@ -100,11 +99,11 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
   }
 
   void _saveForm() {
-    final isValid = _form.currentState!.validate();
+    final isValid = _form.currentState.validate();
     if (!isValid) {
       return;
     }
-    _form.currentState!.save();
+    _form.currentState.save();
     if (_editedMovie.id != null) {
       Provider.of<Movies>(context, listen: false)
           .updateMovie(_editedMovie.id, _editedMovie);
@@ -141,13 +140,12 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                   FocusScope.of(context).requestFocus(_yearFocusNode);
                 },
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  if (value.isEmpty) {
                     return 'Please provide a value.';
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  var value; //???
                   _editedMovie = Movie(
                       title: value,
                       year: _editedMovie.year,
@@ -170,7 +168,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                   FocusScope.of(context).requestFocus(_priceFocusNode);
                 },
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  if (value.isEmpty) {
                     return 'Please enter a price.';
                   }
                   if (double.tryParse(value) == null) {
@@ -182,7 +180,6 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                   return null;
                 },
                 onSaved: (value) {
-                  var value; //???
                   _editedMovie = Movie(
                     title: _editedMovie.title,
                     year: _editedMovie.year,
@@ -206,7 +203,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                   FocusScope.of(context).requestFocus(_directorFocusNode);
                 },
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  if (value.isEmpty) {
                     return 'Please enter a price.';
                   }
                   if (double.tryParse(value) == null) {
@@ -218,7 +215,6 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                   return null;
                 },
                 onSaved: (value) {
-                  var value; //???
                   _editedMovie = Movie(
                       title: _editedMovie.title,
                       year: _editedMovie.year,
@@ -241,13 +237,12 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                   FocusScope.of(context).requestFocus(_genderFocusNode);
                 },
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  if (value.isEmpty) {
                     return 'Please provide a value.';
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  var value; //???
                   _editedMovie = Movie(
                       title: value,
                       year: _editedMovie.year,
@@ -270,13 +265,12 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                   FocusScope.of(context).requestFocus(_sinopsisFocusNode);
                 },
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  if (value.isEmpty) {
                     return 'Please provide a value.';
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  var value; //???
                   _editedMovie = Movie(
                       title: value,
                       year: _editedMovie.year,
@@ -297,7 +291,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                 keyboardType: TextInputType.multiline,
                 focusNode: _sinopsisFocusNode,
                 validator: (value) {
-                  if (value!.isEmpty) {
+                  if (value.isEmpty) {
                     return 'Please enter a description.';
                   }
                   if (value.length < 10) {
@@ -306,7 +300,6 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                   return null;
                 },
                 onSaved: (value) {
-                  var value; //???
                   _editedMovie = Movie(
                       title: _editedMovie.title,
                       year: _editedMovie.year,
@@ -356,7 +349,7 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                         _saveForm();
                       },
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value.isEmpty) {
                           return 'Please enter an image URL.';
                         }
                         if (!value.startsWith('http') &&
@@ -371,7 +364,6 @@ class _EditMovieScreenState extends State<EditMovieScreen> {
                         return null;
                       },
                       onSaved: (value) {
-                        var value; //???
                         _editedMovie = Movie(
                             title: _editedMovie.title,
                             year: _editedMovie.year,

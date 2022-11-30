@@ -12,28 +12,21 @@ import './screens/orders_screen.dart';
 import './screens/user_movies_screen.dart';
 import './screens/edit_movie_screen.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider /*.value*/ (
-          create: (ctx) => Movies(),
-          //value: Movies(),
+        ChangeNotifierProvider.value(
+          value: Movies(),
         ),
-        ChangeNotifierProvider /*.value*/ (
-          create: (ctx) => Cart(),
-          //value: Cart(),
+        ChangeNotifierProvider.value(
+          value: Cart(),
         ),
-        ChangeNotifierProvider /*.value*/ (
-          create: (ctx) => Orders(),
-          //value: Orders(),
+        ChangeNotifierProvider.value(
+          value: Orders(),
         ),
       ],
       child: MaterialApp(

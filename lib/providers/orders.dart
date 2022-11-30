@@ -9,10 +9,10 @@ class OrderItem {
   final DateTime dateTime;
 
   OrderItem({
-    required this.id,
-    required this.amount,
-    required this.movies,
-    required this.dateTime,
+    @required this.id,
+    @required this.amount,
+    @required this.movies,
+    @required this.dateTime,
   });
 }
 
