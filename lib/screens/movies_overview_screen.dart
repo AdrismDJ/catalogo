@@ -20,7 +20,6 @@ class MoviesOverviewScreen extends StatefulWidget {
 }
 
 class _MoviesOverviewScreenState extends State<MoviesOverviewScreen> {
-  //const MoviesOverviewScreen({super.key});
   var _showOnlyFavorites = false;
 
   @override
@@ -56,8 +55,7 @@ class _MoviesOverviewScreenState extends State<MoviesOverviewScreen> {
           ),
           Consumer<Cart>(
             builder: (_, cart, ch) => Badge(
-              // ignore: sort_child_properties_last
-              child: ch!,
+              child: ch,
               value: cart.itemCount.toString(),
               color: Colors.black,
             ),
