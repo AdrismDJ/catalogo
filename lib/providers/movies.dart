@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
+import '../models/http_exception.dart';
 import './movie.dart';
 
 class Movies with ChangeNotifier {
@@ -83,25 +86,88 @@ class Movies with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addMovie(Movie movie) {
-    final newMovie = Movie(
-      title: movie.title,
-      year: movie.year,
-      price: movie.price,
-      director: movie.director,
-      gender: movie.gender,
-      sinopsis: movie.sinopsis,
-      imageUrl: movie.imageUrl,
-      id: DateTime.now().toString(),
-    );
-    _items.add(newMovie);
-    // _items.insert(0, newMovie); // at the start of the list
-    notifyListeners();
+  Future<void> fetchAndSetMovies() async {
+    final url = Uri.https(
+        'flutter-db-89319-default-rtdb.firebaseio.com', '/movies.json');
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData == null) {
+        return;
+      }
+      final List<Movie> loadedMovies = [];
+      extractedData.forEach((movId, movData) {
+        loadedMovies.add(Movie(
+          id: movId,
+          title: movData['title'],
+          year: movData['year'],
+          price: movData['price'],
+          director: movData['director'],
+          gender: movData['gender'],
+          sinopsis: movData['sinopsis'],
+          isFavorite: movData['isFavorite'],
+          imageUrl: movData['imageUrl'],
+        ));
+      });
+      _items = loadedMovies;
+      notifyListeners();
+    } catch (error) {
+      throw (error);
+    }
   }
 
-  void updateMovie(String id, Movie newMovie) {
+  Future<void> addMovie(Movie movie) async {
+    final url = Uri.https(
+        'https:flutter-db-89319-default-rtdb.firebaseio.com/movies.json');
+    //final url = Uri.https('flutter-db-89319-default-rtdb.firebaseio.com', '/movies.json');
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'title': movie.title,
+          'year': movie.year,
+          'price': movie.price,
+          'director': movie.director,
+          'gender': movie.gender,
+          'sinopsis': movie.sinopsis,
+          'imageUrl': movie.imageUrl,
+          'isFavorite': movie.isFavorite,
+        }),
+      );
+      final newMovie = Movie(
+        title: movie.title,
+        year: movie.year,
+        price: movie.price,
+        director: movie.director,
+        gender: movie.gender,
+        sinopsis: movie.sinopsis,
+        imageUrl: movie.imageUrl,
+        id: json.decode(response.body)['name'],
+      );
+      _items.add(newMovie);
+      // _items.insert(0, newProduct); // at the start of the list
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
+  Future<void> updateMovie(String id, Movie newMovie) async {
     final movIndex = _items.indexWhere((mov) => mov.id == id);
     if (movIndex >= 0) {
+      final url = Uri.https(
+          'flutter-db-89319-default-rtdb.firebaseio.com', '/movies/$id.json');
+      await http.patch(url,
+          body: json.encode({
+            'title': newMovie.title,
+            'year': newMovie.year,
+            'price': newMovie.price,
+            'director': newMovie.director,
+            'gender': newMovie.gender,
+            'sinopsis': newMovie.sinopsis,
+            'imageUrl': newMovie.imageUrl,
+          }));
       _items[movIndex] = newMovie;
       notifyListeners();
     } else {
@@ -109,8 +175,19 @@ class Movies with ChangeNotifier {
     }
   }
 
-  void deleteMovie(String id) {
-    _items.removeWhere((mov) => mov.id == id);
+  Future<void> deleteMovie(String id) async {
+    final url = Uri.https(
+        'flutter-db-89319-default-rtdb.firebaseio.com', '/movies/$id.json');
+    final existingMovieIndex = _items.indexWhere((mov) => mov.id == id);
+    var existingMovie = _items[existingMovieIndex];
+    _items.removeAt(existingMovieIndex);
     notifyListeners();
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(existingMovieIndex, existingMovie);
+      notifyListeners();
+      throw HttpException('Could not delete movie.');
+    }
+    existingMovie = null;
   }
 }

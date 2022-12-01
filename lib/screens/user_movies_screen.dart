@@ -10,12 +10,16 @@ import './edit_movie_screen.dart';
 class UserMoviesScreen extends StatelessWidget {
   static const routeName = '/user-movies';
 
+  Future<void> _refreshMovies(BuildContext context) async {
+    await Provider.of<Movies>(context).fetchAndSetMovies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final moviesData = Provider.of<Movies>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Movies'),
+        title: const Text('Tus Películas'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
@@ -26,19 +30,22 @@ class UserMoviesScreen extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: Padding(
-        padding: EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: moviesData.items.length,
-          itemBuilder: (_, i) => Column(
-            children: [
-              UserMovieItem(
-                moviesData.items[i].id,
-                moviesData.items[i].title,
-                moviesData.items[i].imageUrl,
-              ),
-              Divider(),
-            ],
+      body: RefreshIndicator(
+        onRefresh: () => _refreshMovies(context),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: moviesData.items.length,
+            itemBuilder: (_, i) => Column(
+              children: [
+                UserMovieItem(
+                  moviesData.items[i].id,
+                  moviesData.items[i].title,
+                  moviesData.items[i].imageUrl,
+                ),
+                Divider(),
+              ],
+            ),
           ),
         ),
       ),

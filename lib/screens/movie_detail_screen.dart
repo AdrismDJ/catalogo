@@ -12,7 +12,7 @@ class MovieDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final movieId = ModalRoute.of(context)?.settings.arguments as String;
+    final movieId = ModalRoute.of(context).settings.arguments as String;
     final loadedMovie = Provider.of<Movies>(
       context,
       listen: false,

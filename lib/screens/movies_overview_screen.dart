@@ -1,5 +1,5 @@
-import 'package:catalogo/providers/cart.dart';
-import 'package:catalogo/widgets/app_drawer.dart';
+//import 'package:catalogo/providers/cart.dart';
+//import 'package:catalogo/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +8,7 @@ import '../widgets/movies_grid.dart';
 import '../widgets/badge.dart';
 import '../providers/cart.dart';
 import './cart_screen.dart';
+import '../providers/movies.dart';
 
 enum FilterOptions {
   Favorites,
@@ -21,6 +22,33 @@ class MoviesOverviewScreen extends StatefulWidget {
 
 class _MoviesOverviewScreenState extends State<MoviesOverviewScreen> {
   var _showOnlyFavorites = false;
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    // Provider.of<Movies>(context).fetchAndSetMovies(); // WON'T WORK!
+    // Future.delayed(Duration.zero).then((_) {
+    //   Provider.of<Movies>(context).fetchAndSetMovies();
+    // });
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Movies>(context).fetchAndSetMovies().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +56,7 @@ class _MoviesOverviewScreenState extends State<MoviesOverviewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Catálogo de Películas'),
-        actions: <Widget>[
+        /*actions: <Widget>[
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               setState(() {
@@ -44,11 +72,11 @@ class _MoviesOverviewScreenState extends State<MoviesOverviewScreen> {
             ),
             itemBuilder: (_) => [
               PopupMenuItem(
-                child: Text('Only Favorites'),
+                child: Text('Solo Favorites'),
                 value: FilterOptions.Favorites,
               ),
               PopupMenuItem(
-                child: Text('Show All'),
+                child: Text('Mostrar TODO'),
                 value: FilterOptions.All,
               ),
             ],
@@ -68,10 +96,14 @@ class _MoviesOverviewScreenState extends State<MoviesOverviewScreen> {
               },
             ),
           ),
-        ],
+        ],*/
       ),
       drawer: AppDrawer(),
-      body: MoviesGrid(_showOnlyFavorites),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : MoviesGrid(_showOnlyFavorites),
     );
   }
 }
