@@ -10,17 +10,18 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AppBar(
-            title: Text('Hello Friend!'),
+            title: Text('Hola Usuario!'),
             automaticallyImplyLeading: false,
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.shop),
-            title: Text('Shop'),
+            leading: Icon(Icons.movie),
+            title: Text('Catálogo de Peliculas'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/');
             },
           ),
+          /*
           Divider(),
           ListTile(
             leading: Icon(Icons.payment),
@@ -29,11 +30,11 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context)
                   .pushReplacementNamed(OrdersScreen.routeName);
             },
-          ),
+          ),*/
           Divider(),
           ListTile(
             leading: Icon(Icons.edit),
-            title: Text('Manage Movies'),
+            title: Text('Administrar Peliculas'),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(UserMoviesScreen.routeName);

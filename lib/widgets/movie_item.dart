@@ -35,7 +35,7 @@ class MovieItem extends StatelessWidget {
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: Consumer<Movie>(
+          /*leading: Consumer<Movie>(
             builder: (ctx, movie, _) => IconButton(
               icon: Icon(
                 movie.isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -45,11 +45,11 @@ class MovieItem extends StatelessWidget {
                 movie.toggleFavoriteStatus();
               },
             ),
-          ),
+          ),*/
           title: Text(
             movie.title,
             textAlign: TextAlign.center,
-          ),
+          ), /*
           trailing: IconButton(
             icon: Icon(
               Icons.shopping_cart,
@@ -73,7 +73,7 @@ class MovieItem extends StatelessWidget {
               );
             },
             color: Theme.of(context).colorScheme.secondary,
-          ),
+          ),*/
         ),
       ),
     );
